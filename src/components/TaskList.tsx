@@ -3,6 +3,7 @@ import { useState } from 'react'
 import '../styles/tasklist.scss'
 
 import { FiTrash, FiCheckSquare } from 'react-icons/fi'
+import { forEach } from 'cypress/types/lodash';
 
 interface Task {
   id: number;
@@ -40,15 +41,21 @@ export function TaskList() {
     //   newId + newIdAvailability + 1;
     // };
 
-  function handleToggleTaskCompletion(id: number) {
+    function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
 
-    // const isComplete = [tasks.filter(task => task.isComplete === true)];
-    // const isNotComplete = tasks.filter(task => task.isComplete === false);
+    const setCompleteTask = tasks.map((task) => task.id === id ? {
+      ...task,
+      isComplete: !task.isComplete,
+    }: task);
+    
+    setTasks(setCompleteTask);
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
+    const setTaskFIlter = tasks.filter(task => task.id !== id);
+    setTasks(setTaskFIlter);
   }
 
   return (
